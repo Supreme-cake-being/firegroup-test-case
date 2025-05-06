@@ -17,3 +17,5 @@ blogRouter.post(
   validateBody(blogCreateSchema),
   blogController.createBlog
 );
+
+blogRouter.delete("/:blogId", isValidId("blogId"), blogController.deleteBlog);

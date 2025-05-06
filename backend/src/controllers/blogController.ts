@@ -64,3 +64,31 @@ const createBlog: RequestHandler = async (req, res) => {
   res.status(201).json(blog);
 };
 
+const deleteBlog: RequestHandler = async (req, res) => {
+  const { blogId } = req.params;
+
+  const blog = await Blog.findById(blogId);
+
+  if (!blog) {
+    throw HttpError(404, "Not found");
+  }
+
+  if (blog.image?.publicId) {
+    try {
+      await cloudinary.uploader.destroy(blog.image.publicId); // image deletion
+
+      const folderPath = blog.image.publicId.substring(
+        0,
+        blog.image.publicId.lastIndexOf("/")
+      );
+      await cloudinary.api.delete_folder(folderPath); // folder of the image deletion
+    } catch (error) {
+      console.error("Failed to delete Cloudinary image:", error);
+    }
+  }
+
+  await Blog.findByIdAndDelete(blogId);
+
+  res.json({ message: "Blog deleted" });
+};
+
