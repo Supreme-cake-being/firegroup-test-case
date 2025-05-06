@@ -9,3 +9,11 @@ const blogRouter = express.Router();
 blogRouter.get("/", blogController.getBlogs);
 
 blogRouter.get("/:blogId", isValidId("blogId"), blogController.getBlogById);
+
+blogRouter.post(
+  "/",
+  upload.single("image"),
+  isEmptyBody,
+  validateBody(blogCreateSchema),
+  blogController.createBlog
+);

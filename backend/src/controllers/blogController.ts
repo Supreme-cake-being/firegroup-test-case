@@ -30,3 +30,37 @@ const getBlogById: RequestHandler = async (req, res) => {
 
   res.json(blog);
 };
+
+const createBlog: RequestHandler = async (req, res) => {
+  const { title, text } = req.body;
+  const file = req.file;
+
+  let image = null;
+
+  if (file) {
+    const cloudImage = await cloudinary.uploader.upload(file.path, {
+      folder: `blogs/${title.replace(/\s/g, "_")}_${Date.now()}`,
+      transformation: [
+        { width: 800, height: 800, crop: "limit" }, // Resize if too big
+        { quality: "auto" }, // Auto-compression
+        { fetch_format: "auto" }, // Convert to WebP/AVIF if supported
+      ],
+    });
+
+    image = {
+      url: cloudImage.secure_url,
+      publicId: cloudImage.public_id,
+    };
+
+    await unlink(file.path);
+  }
+
+  const blog = await Blog.create({
+    title,
+    text,
+    image, // optional
+  });
+
+  res.status(201).json(blog);
+};
+
