@@ -1,24 +1,13 @@
 import multer from "multer";
 import path from "path";
 
-const destination = path.resolve("temp");
+const tempDir = path.join(process.cwd(), "temp"); // or use your own path
 
 const storage = multer.diskStorage({
-  destination,
+  destination: tempDir,
   filename: (_, file, cb) => {
-    const uniquePrefix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    const filename = `${uniquePrefix}_${file.originalname}`;
-    cb(null, filename);
+    cb(null, `${Date.now()}_${file.originalname}`);
   },
 });
 
-const limits = {
-  fileSize: 5 * 1024 * 1024,
-};
-
-const upload = multer({
-  storage,
-  limits,
-});
-
-export default upload;
+export const upload = multer({ storage });
