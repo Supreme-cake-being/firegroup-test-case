@@ -92,3 +92,61 @@ const deleteBlog: RequestHandler = async (req, res) => {
   res.json({ message: "Blog deleted" });
 };
 
+const updateBlog: RequestHandler = async (req, res) => {
+  const { blogId } = req.params;
+  const { title, text } = req.body;
+  const file = req.file;
+
+  const blog = await Blog.findById(blogId);
+
+  if (!blog) {
+    throw HttpError(404, "Not found");
+  }
+
+  let image = blog.image;
+
+  if (file) {
+    if (blog.image?.publicId) {
+      await cloudinary.uploader.destroy(blog.image.publicId); // delete prev image
+
+      const folderPath = blog.image.publicId.substring(
+        0,
+        blog.image.publicId.lastIndexOf("/")
+      );
+      await cloudinary.api.delete_folder(folderPath); // folder of the image deletion
+    }
+
+    // upload new image
+    const cloudImage = await cloudinary.uploader.upload(file.path, {
+      folder: `blogs/${blog.title.replace(/\s/g, "_")}_${Date.now()}`,
+      transformation: [
+        { width: 800, height: 800, crop: "limit" },
+        { quality: "auto" },
+        { fetch_format: "auto" },
+      ],
+    });
+
+    image = {
+      url: cloudImage.secure_url,
+      publicId: cloudImage.public_id,
+    };
+
+    await unlink(file.path);
+  }
+
+  const updatedBlog = await Blog.findByIdAndUpdate(blogId, {
+    title,
+    text,
+    image, // optional
+  });
+
+  res.json(updatedBlog);
+};
+
+export default {
+  getBlogs: ctrlWrapper(getBlogs),
+  getBlogById: ctrlWrapper(getBlogById),
+  createBlog: ctrlWrapper(createBlog),
+  deleteBlog: ctrlWrapper(deleteBlog),
+  updateBlog: ctrlWrapper(updateBlog),
+};

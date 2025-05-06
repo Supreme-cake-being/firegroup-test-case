@@ -19,3 +19,14 @@ blogRouter.post(
 );
 
 blogRouter.delete("/:blogId", isValidId("blogId"), blogController.deleteBlog);
+
+blogRouter.put(
+  "/:blogId",
+  isValidId("blogId"),
+  upload.single("image"),
+  isEmptyBody,
+  validateBody(blogUpdateSchema),
+  blogController.updateBlog
+);
+
+export default blogRouter;
