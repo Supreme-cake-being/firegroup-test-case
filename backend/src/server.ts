@@ -24,7 +24,7 @@ mongoose
 
 function startSelfPing(url: string) {
   const https = require("https");
-  const interval = 10 * 1000; // 10 minutes 60 *
+  const interval = 10 * 60 * 1000; // 10 minutes
 
   console.log(`Self-ping enabled: Pinging ${url} every 10 minutes.`);
 
