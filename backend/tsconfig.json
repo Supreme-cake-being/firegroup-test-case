@@ -7,26 +7,25 @@
     "skipLibCheck": true,
 
     "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
 
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
 
+    "outDir": "./dist",
+    "rootDir": "./src",
     "baseUrl": "src",
     "paths": {
-      "@controllers/*": ["src/controllers/*"],
-      "@controllers": ["src/controllers"],
-      "@routes/*": ["src/routes/api/*"],
-      "@routes": ["src/routes"],
-      "@helpers": ["src/helpers"],
-      "@helpers/*": ["src/helpers/*"],
-      "@models/*": ["src/models/*"]
+      "@controllers/*": ["controllers/*"],
+      "@routes/*": ["routes/*"],
+      "@helpers/*": ["helpers/*"],
+      "@models/*": ["models/*"]
     },
+
+    "esModuleInterop": true,
 
     "typeRoots": ["./src/types", "./node_modules/@types"]
   }
