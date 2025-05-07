@@ -10,12 +10,15 @@ app.use(express.json());
 
 app.use("/api/blog", blogRouter);
 
-app.use((_: Request, res: Response) => {
+app.get("/api/ping", (_req: Request, res: Response) => {
+  res.status(200).send("pong");
+});
+
+app.use((_req: Request, res: Response) => {
   res.status(404).json({ message: "Not found" });
 });
 
-// @ts-ignore
-app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
   const status = err.status || 500;
   const message = err.message || "Server error";
   res.status(status).json({ message });
