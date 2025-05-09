@@ -9,9 +9,9 @@ import {
   useDisclosure,
 } from "@heroui/react";
 import { DeleteButton } from "@/src/components/IconButtons";
+import { Loader } from "@/src/components/Loader";
 import { useBlogDelete } from "@/src/hooks/useBlogDelete";
 import { HandleFetchContext } from "@/src/contexts/handleFecthContext";
-import { Loader } from "@/src/components/Loader";
 
 interface IDeleteModal {
   id: string;

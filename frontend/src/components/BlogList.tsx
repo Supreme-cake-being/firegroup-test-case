@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import {
   Button,
   Card,
@@ -8,11 +9,10 @@ import {
   CardHeader,
   Image,
 } from "@heroui/react";
-import { EditButton } from "./IconButtons";
-import { useRouter } from "next/navigation";
-import { DeleteModal } from "./DeleteModal";
+import { EditButton } from "@/src/components/IconButtons";
+import { DeleteModal } from "@/src/components/DeleteModal";
+import { Loader } from "@/src/components/Loader";
 import FallBackImage from "@/public/fallback.webp";
-import { Loader } from "./Loader";
 
 interface IBlogList {
   blogs: Record<string, any>[];
