@@ -21,6 +21,10 @@ const config = {
           md: "24px",
           lg: "32px",
         },
+        screens: {
+          md: "768px",
+          lg: "1280px",
+        },
       },
     },
   },
