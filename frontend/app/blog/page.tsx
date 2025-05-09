@@ -1,10 +1,9 @@
 "use client";
 
 import { BlogList } from "@/src/components/BlogList";
+import { HandleFetchContext } from "@/src/contexts/handleFecthContext";
 import { useBlogs } from "@/src/hooks/useBlogs";
-import { createContext, useEffect } from "react";
-
-export const HandleFetchContext = createContext(() => Promise.resolve());
+import { useEffect } from "react";
 
 export default function BlogPage() {
   const { blogs, loading, handleFetch } = useBlogs();

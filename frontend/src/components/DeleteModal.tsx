@@ -11,7 +11,7 @@ import {
 import { DeleteButton } from "./IconButtons";
 import { useBlogDelete } from "@/src/hooks/useBlogDelete";
 import { useContext } from "react";
-import { HandleFetchContext } from "@/app/blog/page";
+import { HandleFetchContext } from "@/src/contexts/handleFecthContext";
 
 interface IDeleteModal {
   id: string;
@@ -30,31 +30,35 @@ export const DeleteModal = ({ id, title }: IDeleteModal) => {
       <DeleteButton text="Delete post" onPress={onOpen} />
       <Modal placement="center" isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader className="flex flex-col gap-1">
-                Delete {title}
-              </ModalHeader>
-              <ModalBody>
-                <h4>Are you sure you want to delete {title}</h4>
-              </ModalBody>
-              <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
-                  Close
-                </Button>
-                <Button
-                  color="danger"
-                  onPress={async () => {
-                    await handleDelete(id);
-                    await handleFetch();
-                    onClose();
-                  }}
-                >
-                  Delete
-                </Button>
-              </ModalFooter>
-            </>
-          )}
+          {(onClose) =>
+            !loading ? (
+              <>
+                <ModalHeader className="flex flex-col gap-1">
+                  Delete {title}
+                </ModalHeader>
+                <ModalBody>
+                  <h4>Are you sure you want to delete {title}</h4>
+                </ModalBody>
+                <ModalFooter>
+                  <Button color="danger" variant="light" onPress={onClose}>
+                    Close
+                  </Button>
+                  <Button
+                    color="danger"
+                    onPress={async () => {
+                      await handleDelete(id);
+                      await handleFetch();
+                      onClose();
+                    }}
+                  >
+                    Delete
+                  </Button>
+                </ModalFooter>
+              </>
+            ) : (
+              <Spinner label="Loading..." variant="wave" size="lg" />
+            )
+          }
         </ModalContent>
       </Modal>
     </>
