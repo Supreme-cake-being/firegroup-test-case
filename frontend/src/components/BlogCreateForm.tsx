@@ -1,35 +1,27 @@
 "use client";
 
 import { Button, Divider, Input, Spinner } from "@heroui/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ImageInput } from "./ImageInput";
 import { useRouter } from "next/navigation";
-import { useBlogById } from "@/src/hooks/useBlogById";
-import { useBlogUpdate } from "@/src/hooks/useBlogUpdate";
+import { useBlogCreate } from "@/src/hooks/useBlogCreate";
 
-interface IBlogEditForm {
-  id: string;
-}
-
-export const BlogEditForm = ({ id }: IBlogEditForm) => {
-  const [title, setTitle] = useState<string>();
-  const [text, setText] = useState<string>();
+export const BlogCreateForm = () => {
+  const [title, setTitle] = useState<string>("");
+  const [text, setText] = useState<string>("");
   const [image, setImage] = useState<string | { url: string } | File | null>(
     null
   );
 
-  const { blog, loading } = useBlogById(id);
-  const { loading: loadingUpdate, handleUpdate } = useBlogUpdate();
-
   const { push } = useRouter();
   const handleBack = () => push("/blog");
+
+  const { loading, handleCreate } = useBlogCreate();
 
   const handleSudmit = async (e: any) => {
     e.preventDefault();
 
-    const shouldUpdateImage =
-      image instanceof File ||
-      (typeof image !== "string" && blog.image?.url !== image?.url);
+    const shouldUpdateImage = image instanceof File;
 
     const data = {
       image: shouldUpdateImage ? image : null,
@@ -37,29 +29,20 @@ export const BlogEditForm = ({ id }: IBlogEditForm) => {
       text: text as string,
     };
 
-    await handleUpdate(data, id);
+    await handleCreate(data);
     handleBack();
   };
 
-  useEffect(() => {
-    if (blog) {
-      setTitle(blog.title);
-      setText(blog.text);
-      setImage(blog.image);
-    }
-  }, [blog]);
-
-  if (loading || loadingUpdate)
+  if (loading)
     return (
       <div className="flex justify-center items-center w-full h-full">
         <Spinner label="Loading..." variant="wave" size="lg" />
       </div>
     );
-  if (!blog) return <p>Blog not found</p>;
 
   return (
     <>
-      <h4 className="text-medium font-medium">Edit post</h4>
+      <h4 className="text-medium font-medium">Create post</h4>
       <Divider className="mt-1 mb-2 " />
       <form onSubmit={handleSudmit} className="flex flex-col gap-4">
         <ImageInput image={image} setImage={setImage} />

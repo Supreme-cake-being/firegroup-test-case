@@ -20,7 +20,7 @@ interface IBlogList {
 export const BlogList = ({ blogs }: IBlogList) => {
   const { push } = useRouter();
 
-  const handleCreateButtonClick = () => push("/create");
+  const handleCreateButtonClick = () => push("/blog/create");
 
   return (
     <>
@@ -28,7 +28,7 @@ export const BlogList = ({ blogs }: IBlogList) => {
         Create Post
       </Button>
 
-      <div className="flex justify-center gap-4 flex-wrap">
+      <div className="mt-2 flex justify-center gap-4 flex-wrap">
         {blogs?.map(({ _id, title, text, image }: Record<string, any>) => (
           <Card key={_id} className="py-4 w-full md:w-[320px] lg:w-[360px]">
             <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
