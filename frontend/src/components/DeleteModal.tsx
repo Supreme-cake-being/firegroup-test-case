@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import {
   Button,
   Modal,
@@ -5,13 +6,12 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
-  Spinner,
   useDisclosure,
 } from "@heroui/react";
-import { DeleteButton } from "./IconButtons";
+import { DeleteButton } from "@/src/components/IconButtons";
 import { useBlogDelete } from "@/src/hooks/useBlogDelete";
-import { useContext } from "react";
 import { HandleFetchContext } from "@/src/contexts/handleFecthContext";
+import { Loader } from "@/src/components/Loader";
 
 interface IDeleteModal {
   id: string;
@@ -30,37 +30,35 @@ export const DeleteModal = ({ id, title }: IDeleteModal) => {
       <DeleteButton text="Delete post" onPress={onOpen} />
       <Modal placement="center" isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
-          {(onClose) =>
-            !loading ? (
-              <>
-                <ModalHeader className="flex flex-col gap-1">
-                  Delete {title}
-                </ModalHeader>
-                <ModalBody>
-                  <h4>Are you sure you want to delete {title}</h4>
-                </ModalBody>
-                <ModalFooter>
-                  <Button color="danger" variant="light" onPress={onClose}>
-                    Close
-                  </Button>
-                  <Button
-                    color="danger"
-                    onPress={async () => {
-                      await handleDelete(id);
-                      await handleFetch();
-                      onClose();
-                    }}
-                  >
-                    Delete
-                  </Button>
-                </ModalFooter>
-              </>
-            ) : (
-              <Spinner label="Loading..." variant="wave" size="lg" />
-            )
-          }
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">
+                Delete {title}
+              </ModalHeader>
+              <ModalBody>
+                <h4>Are you sure you want to delete {title}</h4>
+              </ModalBody>
+              <ModalFooter>
+                <Button color="danger" variant="light" onPress={onClose}>
+                  Close
+                </Button>
+                <Button
+                  color="danger"
+                  onPress={async () => {
+                    await handleDelete(id);
+                    await handleFetch();
+                    onClose();
+                  }}
+                >
+                  Delete
+                </Button>
+              </ModalFooter>
+            </>
+          )}
         </ModalContent>
       </Modal>
+
+      {loading && <Loader />}
     </>
   );
 };

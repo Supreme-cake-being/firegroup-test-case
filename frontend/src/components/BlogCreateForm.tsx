@@ -1,10 +1,11 @@
 "use client";
 
-import { Button, Divider, Input, Spinner } from "@heroui/react";
 import { useState } from "react";
-import { ImageInput } from "./ImageInput";
 import { useRouter } from "next/navigation";
+import { Button, Divider, Input } from "@heroui/react";
 import { useBlogCreate } from "@/src/hooks/useBlogCreate";
+import { ImageInput } from "@/src/components/ImageInput";
+import { Loader } from "@/src/components/Loader";
 
 export const BlogCreateForm = () => {
   const [title, setTitle] = useState<string>("");
@@ -32,13 +33,6 @@ export const BlogCreateForm = () => {
     await handleCreate(data);
     handleBack();
   };
-
-  if (loading)
-    return (
-      <div className="flex justify-center items-center w-full h-full">
-        <Spinner label="Loading..." variant="wave" size="lg" />
-      </div>
-    );
 
   return (
     <>
@@ -74,6 +68,8 @@ export const BlogCreateForm = () => {
           </Button>
         </div>
       </form>
+
+      {loading && <Loader />}
     </>
   );
 };

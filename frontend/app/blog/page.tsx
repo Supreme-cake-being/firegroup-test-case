@@ -14,7 +14,7 @@ export default function BlogPage() {
 
   return (
     <HandleFetchContext value={handleFetch}>
-      <BlogList blogs={blogs} />
+      <BlogList blogs={blogs} loading={loading} />
     </HandleFetchContext>
   );
 }

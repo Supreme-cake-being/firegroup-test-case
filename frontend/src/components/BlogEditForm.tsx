@@ -1,9 +1,10 @@
 "use client";
 
-import { Button, Divider, Input, Spinner } from "@heroui/react";
 import { useEffect, useState } from "react";
-import { ImageInput } from "./ImageInput";
 import { useRouter } from "next/navigation";
+import { Button, Divider, Input } from "@heroui/react";
+import { ImageInput } from "@/src/components/ImageInput";
+import { Loader } from "@/src/components/Loader";
 import { useBlogById } from "@/src/hooks/useBlogById";
 import { useBlogUpdate } from "@/src/hooks/useBlogUpdate";
 
@@ -49,12 +50,6 @@ export const BlogEditForm = ({ id }: IBlogEditForm) => {
     }
   }, [blog]);
 
-  if (loading || loadingUpdate)
-    return (
-      <div className="flex justify-center items-center w-full h-full">
-        <Spinner label="Loading..." variant="wave" size="lg" />
-      </div>
-    );
   if (!blog) return <p>Blog not found</p>;
 
   return (
@@ -91,6 +86,8 @@ export const BlogEditForm = ({ id }: IBlogEditForm) => {
           </Button>
         </div>
       </form>
+
+      {(loading || loadingUpdate) && <Loader />}
     </>
   );
 };

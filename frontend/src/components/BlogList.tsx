@@ -12,12 +12,14 @@ import { EditButton } from "./IconButtons";
 import { useRouter } from "next/navigation";
 import { DeleteModal } from "./DeleteModal";
 import FallBackImage from "@/public/fallback.webp";
+import { Loader } from "./Loader";
 
 interface IBlogList {
   blogs: Record<string, any>[];
+  loading: boolean;
 }
 
-export const BlogList = ({ blogs }: IBlogList) => {
+export const BlogList = ({ blogs, loading }: IBlogList) => {
   const { push } = useRouter();
 
   const handleCreateButtonClick = () => push("/blog/create");
@@ -38,9 +40,7 @@ export const BlogList = ({ blogs }: IBlogList) => {
             <Card key={_id} className="w-full md:w-[236px] lg:w-[300px]">
               <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
                 <h4 className="font-bold text-large">{title}</h4>
-                <p className="text-ellipsis overflow-hidden w-full whitespace-wrap">
-                  {text}
-                </p>
+                <p>{text}</p>
               </CardHeader>
               <CardBody className="overflow-visible py-2">
                 <Image
@@ -72,6 +72,8 @@ export const BlogList = ({ blogs }: IBlogList) => {
           )
         )}
       </div>
+
+      {loading && <Loader />}
     </>
   );
 };
