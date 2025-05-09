@@ -8,10 +8,10 @@ import {
   CardHeader,
   Image,
 } from "@heroui/react";
-import FallBackImage from "@/public/fallback.webp";
 import { EditButton } from "./IconButtons";
 import { useRouter } from "next/navigation";
 import { DeleteModal } from "./DeleteModal";
+import FallBackImage from "@/public/fallback.webp";
 
 interface IBlogList {
   blogs: Record<string, any>[];
@@ -21,8 +21,6 @@ export const BlogList = ({ blogs }: IBlogList) => {
   const { push } = useRouter();
 
   const handleCreateButtonClick = () => push("/create");
-
-  console.log(blogs);
 
   return (
     <>
