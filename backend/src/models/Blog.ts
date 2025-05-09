@@ -25,7 +25,7 @@ const blogSchema = new Schema(
   },
   {
     versionKey: false,
-    timestamps: false,
+    timestamps: true,
   }
 );
 
