@@ -26,13 +26,11 @@ export const BlogList = ({ blogs, loading }: IBlogList) => {
 
   return (
     <>
-      <Button
-        color="primary"
-        onPress={handleCreateButtonClick}
-        className="mr-auto"
-      >
-        Create Post
-      </Button>
+      <div className="flex justify-end">
+        <Button color="primary" onPress={handleCreateButtonClick}>
+          Create Post
+        </Button>
+      </div>
 
       <div className="mt-4 columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
         {blogs?.map(
