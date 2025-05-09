@@ -32,7 +32,7 @@ export const BlogList = ({ blogs, loading }: IBlogList) => {
         </Button>
       </div>
 
-      <div className="mt-4 columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
+      <div className="pt-4 columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
         {blogs?.map(
           ({ _id, title, text, image, createdAt }: Record<string, any>) => (
             <Card key={_id} className="w-full md:w-[236px] lg:w-[300px]">
